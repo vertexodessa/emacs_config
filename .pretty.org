@@ -498,7 +498,6 @@ from http://emacs.stackexchange.com/questions/29127/make-statistics-of-the-tag-u
 ;(define-key yafolding-mode-map (kbd "C-c <C-return>") 'yafolding-toggle-element)
 #+END_SRC
 * RTags
-
 ** enable rtags
 #+BEGIN_SRC emacs-lisp
   ;;(require 'rtags) ;; optional, must have rtags installed
@@ -631,8 +630,7 @@ from http://emacs.stackexchange.com/questions/29127/make-statistics-of-the-tag-u
            ("C-x c Y" . helm-yas-create-snippet-on-region)
            ("C-x c SPC" . helm-all-mark-rings)
            ("C-c h" . helm-projectile)
-           ("C-x C-f" . helm-find-files)
-           ;;("C-x C-f" . ido-find-file)
+           ("C-x C-d" . helm-find-files)
            ("C-x d" . helm-browse-project)
            ;; ("C-x c b" . my/helm-do-grep-book-notes)
            ))
@@ -1035,8 +1033,8 @@ TODO: Get better at detecting and opening all URLs"
     ad-do-it
     ))
 #+END_SRC
-** gdb key bindings                                      :KEYS:DEBUGGER:GDB:
-*** Emacs has a wonderful gdb mode that matches up gdb in one buffer with source code in others. You can easily wire up keys to:
+*** keys 
+Emacs has a wonderful gdb mode that matches up gdb in one buffer with source code in others. You can easily wire up keys to:
 Step through code (into, over, out of)
 Print the current values of variables/expressions written in your code
 Set breakpoints
@@ -1044,12 +1042,12 @@ Cut and paste text to/from anywhere in emacs
 Save your session's output to disk
 Especially handy is the ability to easily set run until breakpoints.
 #+BEGIN_SRC emacs-lisp
-(add-hook 'gdb-mode-hook
+(add-hook 'gud-mode-hook
 (lambda()
   ;; begin debugging and break at the first line of main()
-  (global-set-key [f5] (with-args gud-call "start"))
-  ;; continue executing
-  (global-set-key [f6] (with-args gud-cont "%p"))
+  ;;# (global-set-key [f5] (run-hook-with-args gud-call "start"))
+  ;; ;; continue executing
+  ;;# (global-set-key [f6] (run-hook-with-args gud-cont "%p"))
   (global-set-key [f7] 'gud-finish)
   (global-set-key [f8] 'gud-step)
   (global-set-key [f9] 'gud-next)
@@ -1104,6 +1102,16 @@ Especially handy is the ability to easily set run until breakpoints.
    (local-set-key (kbd "<tab>") 'dired-subtree-toggle)
 ))
 #+END_SRC
+** INFO dired-jump                                         :KEYS:NAVIGATION:
+In a file, how to go to its directory and place cursor on the file name?
+Put this in your init file:
+
+#+BEGIN_SRC emacs-lisp
+(require 'dired-x)
+#+END_SRC
+In any file buffer, call dired-jump 【Ctrl+x Ctrl+j】 to jump to the directory of current buffer.
+
+
 * neotree directory browser
 #+BEGIN_SRC emacs-lisp
 ;; (add-to-list 'load-path "/some/path/neotree")
@@ -1116,4 +1124,9 @@ Especially handy is the ability to easily set run until breakpoints.
 (add-to-list 'package-archives '("SC" . "http://joseito.republika.pl/sunrise-commander/") t)
 (use-package sunrise-commander 
 :ensure t)
+#+END_SRC
+* grep
+** Recursive lgrep by default (but it's still better to use ag)
+#+BEGIN_SRC emacs-lisp
+(setq grep-template "grep <X> <C> --color -n -e <R> <F> -R")
 #+END_SRC
