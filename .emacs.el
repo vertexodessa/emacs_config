@@ -25,9 +25,13 @@
 (require 'diminish)
 (require 'bind-key)
 
+; rtags dependencies
+
+;;(setq debug-on-error t)
 (require 'org)
 (org-babel-load-file "~/.pretty.org")
 
 (setq custom-file "~/.custom.el")
 (load custom-file)
 
+(put 'dired-find-alternate-file 'disabled nil)
